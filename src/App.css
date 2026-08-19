@@ -1,0 +1,320 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.navbar {
+    background-color: #0F0F0F;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+.logo span {
+    color: white;
+    background-color: #FF0000;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: flex-end;
+}
+
+.link-item {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Hover par text thoda red */
+.link-item:hover {
+    color: #ff2b2b;
+    text-shadow: 0 0 10px rgba(255, 43, 43, 0.5);
+}
+
+/* Bottom animated line */
+.link-item::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #ff2b2b;
+    border-radius: 10px;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+/* Line expand */
+.link-item:hover::after {
+    width: 70%;
+}
+
+
+/* signup and login page */
+
+/* .form-wrapper {
+    width : 100%;
+    height : 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    width : 40%;
+    height : 50vh;
+    background-color: #eee;
+    display: flex;
+    flex-direction: column;
+} */
+ 
+.form-wrapper {
+  min-height: calc(100vh - 84px);
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px 20px;
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 10% 25%,
+      rgba(255, 80, 130, 0.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(125, 80, 255, 0.18),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #fff5f7,
+      #f8f7ff,
+      #f3f5ff
+    );
+}
+
+
+/* Signup Form */
+
+.form {
+  width: 100%;
+  max-width: 400px;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 20px 50px rgba(50, 40, 80, 0.14);
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Top gradient line */
+
+.form::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #ff3d6e,
+    #b347ff
+  );
+}
+
+
+/* Heading */
+
+.form p {
+  margin: 0 0 10px;
+
+  text-align: center;
+
+  color: #202331;
+
+  font-size: 26px;
+  font-weight: 700;
+}
+
+
+/* Heading underline */
+
+.form p::after {
+  content: "";
+
+  display: block;
+
+  width: 45px;
+  height: 4px;
+
+  margin: 12px auto 0;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #ff3d6e,
+    #b347ff
+  );
+}
+
+
+/* Input */
+
+.form-input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 15px;
+
+  box-sizing: border-box;
+
+  background: #fafbff;
+
+  border: 1.5px solid #e0e3eb;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  color: #252836;
+
+  font-size: 14px;
+
+  transition: 0.25s ease;
+}
+
+
+.form-input::placeholder {
+  color: #8d92a3;
+}
+
+
+.form-input:hover {
+  background: white;
+  border-color: #cfd2dd;
+}
+
+
+.form-input:focus {
+  background: white;
+
+  border-color: #a846ff;
+
+  box-shadow:
+    0 0 0 4px rgba(168, 70, 255, 0.08);
+}
+
+
+/* Signup Button */
+
+.form button {
+  width: 100%;
+  height: 48px;
+
+  margin-top: 3px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #ff3d6e,
+    #b347ff
+  );
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+
+  box-shadow:
+    0 7px 18px rgba(190, 60, 180, 0.20);
+}
+
+
+.form button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 10px 25px rgba(190, 60, 180, 0.28);
+}
+
+
+.form button:active {
+  transform: translateY(0);
+}
+
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+  .form-wrapper {
+    padding: 25px 15px;
+  }
+
+  .form {
+    max-width: 380px;
+    padding: 27px 20px;
+  }
+
+  .form p {
+    font-size: 23px;
+  }
+
+  .form-input,
+  .form button {
+    height: 46px;
+  }
+}
