@@ -32,6 +32,7 @@ const Signup = () => {
       );
 
       console.log(data);
+      setLoading(false);
       swal("Success!", "Account created successfully.", "success");
 
       navigate("/login");
@@ -44,6 +45,7 @@ const Signup = () => {
     }
     catch (error) {
       console.log(error)
+      setLoading(false)
       swal("Error!", "Failed to create account.", "error");
     }
   }
