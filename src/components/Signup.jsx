@@ -1,66 +1,204 @@
+// import React, { useState } from 'react'
+// import { Link, Outlet,useNavigate } from 'react-router-dom'
+// import axios from 'axios'
+// import swal from 'sweetalert'
+
+// const Signup = () => {
+//   const [channelName, setChannelName] = useState('')
+//   const [description, setDescription] = useState('')
+//   const [email, setEmail] = useState('')
+//   const [password, setPassword] = useState('')
+
+//   const navigate = useNavigate()
+
+//   const [isLoading, setLoading] = useState(false)
+//   const apiUrl = import.meta.env.VITE_API_URL
+
+//   const SubmitHandler = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       setLoading(true);
+//       const newChannel = {
+//         channelName,
+//         description,
+//         email,
+//         password,
+//       };
+
+//       const data =await axios.post(
+//         `${apiUrl}/user/signup`,
+//         newChannel
+//       );
+
+//       console.log(data.data);
+//       setLoading(false);
+
+//       navigate("");
+
+//       // Clear Form
+//       setChannelName("");
+//       setDescription("");
+//       setEmail("");
+//       setPassword("");
+//     }
+//     catch (error) {
+//       console.log(error)
+//       setLoading(false)
+//       swal("Error!", "Failed to create account.", "error");
+//     }
+//   }
+
+//   return (
+//     <div className='form-wrapper' >
+//       <form className='form' onSubmit={SubmitHandler}>
+//         <p>Create Your Account</p>
+//         <input className='form-input' onChange={(e) => setChannelName(e.target.value)} type='text' placeholder='channel Name' value={channelName}></input>
+//         <input className='form-input' onChange={(e) => setDescription(e.target.value)} type='text' placeholder='description' value={description}></input>
+//         <input className='form-input' onChange={(e) => setEmail(e.target.value)} type='email' placeholder='email' value={email}></input>
+//         <input className='form-input' onChange={(e) => setPassword(e.target.value)} type='password' placeholder='password' value={password}></input>
+//         {isLoading ? (<button><span><i className="fa-solid fa-spinner"></i></span> Creating Account....</button>) : (<button>Create Account</button>)}
+//         <Link to = "/login">Already have an account? Login here</Link>
+//       </form>
+//     </div>
+//   )
+// }
+
+// export default Signup
+
+
 import React, { useState } from 'react'
-import { Link, Outlet,useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useOutletContext } from 'react-router-dom'
 import axios from 'axios'
 import swal from 'sweetalert'
 
 const Signup = () => {
+
   const [channelName, setChannelName] = useState('')
   const [description, setDescription] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const [isLoading, setLoading] = useState(false)
+
   const navigate = useNavigate()
 
-  const [isLoading, setLoading] = useState(false)
+  // NavBar se setLoginState lena
+  const { setLoginState } = useOutletContext()
+
   const apiUrl = import.meta.env.VITE_API_URL
 
   const SubmitHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      setLoading(true);
+      setLoading(true)
+
       const newChannel = {
         channelName,
         description,
         email,
-        password,
-      };
+        password
+      }
 
-      const data =await axios.post(
+      const response = await axios.post(
         `${apiUrl}/user/signup`,
         newChannel
-      );
+      )
 
-      console.log(data);
-      setLoading(false);
-      swal("Success!", "Account created successfully.", "success");
+      console.log(response.data)
 
-      navigate("/login");
+      // Backend se token aur user data
+      const { token, newUser } = response.data
 
-      // Clear Form
-      setChannelName("");
-      setDescription("");
-      setEmail("");
-      setPassword("");
-    }
-    catch (error) {
-      console.log(error)
+      // LocalStorage me save
+      localStorage.setItem('token', token)
+      localStorage.setItem('isLogin', true)
+      localStorage.setItem('channelName', newUser.channelName)
+      localStorage.setItem('userId', newUser._id)
+
+      // Navbar ko login state batao
+      setLoginState(true)
+
       setLoading(false)
-      swal("Error!", "Failed to create account.", "error");
+
+      // Login ke baad wala page
+      navigate('/')
+
+    } catch (error) {
+
+      console.log(error)
+
+      setLoading(false)
+
+      swal(
+        "Error!",
+        error.response?.data?.error || "Failed to create account.",
+        "error"
+      )
     }
   }
 
   return (
-    <div className='form-wrapper' >
+    <div className='form-wrapper'>
+
       <form className='form' onSubmit={SubmitHandler}>
+
         <p>Create Your Account</p>
-        <input className='form-input' onChange={(e) => setChannelName(e.target.value)} type='text' placeholder='channel Name' value={channelName}></input>
-        <input className='form-input' onChange={(e) => setDescription(e.target.value)} type='text' placeholder='description' value={description}></input>
-        <input className='form-input' onChange={(e) => setEmail(e.target.value)} type='email' placeholder='email' value={email}></input>
-        <input className='form-input' onChange={(e) => setPassword(e.target.value)} type='password' placeholder='password' value={password}></input>
-        {isLoading ? (<button><span><i class="fa-solid fa-spinner"></i></span> Creating Account....</button>) : (<button>Create Account</button>)}
-        <Link to = "/login">Already have an account? Login here</Link>
+
+        <input
+          className='form-input'
+          onChange={(e) => setChannelName(e.target.value)}
+          type='text'
+          placeholder='Channel Name'
+          value={channelName}
+          required
+        />
+
+        <input
+          className='form-input'
+          onChange={(e) => setDescription(e.target.value)}
+          type='text'
+          placeholder='Description'
+          value={description}
+          required
+        />
+
+        <input
+          className='form-input'
+          onChange={(e) => setEmail(e.target.value)}
+          type='email'
+          placeholder='Email'
+          value={email}
+          required
+        />
+
+        <input
+          className='form-input'
+          onChange={(e) => setPassword(e.target.value)}
+          type='password'
+          placeholder='Password'
+          value={password}
+          required
+        />
+
+        {isLoading ? (
+          <button type="submit" disabled>
+            <span><i className="fa-solid fa-spinner fa-spin"></i></span>
+            {" "}Creating Account....
+          </button>
+        ) : (
+          <button type="submit">
+            Create Account
+          </button>
+        )}
+
+        <Link to="/login">
+          Already have an account? Login here
+        </Link>
+
       </form>
+
     </div>
   )
 }
