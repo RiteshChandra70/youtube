@@ -1,12 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import profile from '../assets/logo.jpg'
+import loader from '../assets/loader.gif'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
 
     const [videos, setVideos] = useState([])
 
     const apiUrl = import.meta.env.VITE_API_URL
+
+    const navigate = useNavigate()
 
     const getVideo = async () => {
         try {
@@ -36,7 +40,7 @@ const Home = () => {
 
                     videos.map((video) => (
 
-                        <div className="video-card" key={video._id}>
+                        <div className="video-card" onClick={() => navigate(`/video/${video._id}`)} key={video._id}>
 
                             {/* Thumbnail */}
                             <img
@@ -52,11 +56,14 @@ const Home = () => {
                                     {video.title}
                                 </p>
 
-                                <p className='video-description'>
-                                    {video.description.length > 50
-                                        ? video.description.slice(0, 50) + '...'
-                                        : video.description}
-                                </p>
+                                <span className="video-category">
+                                    {video.category}
+                                </span>
+
+                                <div
+                                    className="video-description"
+                                    dangerouslySetInnerHTML={{ __html: video.description }}
+                                ></div>
 
                                 <div className="channel-info">
                                     {/* Profile Picture */}
@@ -71,7 +78,7 @@ const Home = () => {
                                         {video.uploadedBy?.channelName}
                                     </p>
                                 </div>
-                                
+
 
                                 {/* Views */}
                                 <div className="video-meta">
@@ -96,7 +103,8 @@ const Home = () => {
 
                 ) : (
 
-                    <p>No videos available</p>
+                    <img className="loader" src={loader} alt="Loading..." />
+                    // <p>No videos available</p>
 
                 )}
 

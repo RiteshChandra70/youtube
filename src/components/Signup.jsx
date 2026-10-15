@@ -133,8 +133,7 @@ const Signup = () => {
 
       swal(
         "Error!",
-        error.response?.data?.error || "Failed to create account.",
-        "error"
+        error.response?.data?.error || "Failed to create account."
       )
     }
   }

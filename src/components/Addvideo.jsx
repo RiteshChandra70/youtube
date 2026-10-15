@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import swal from 'sweetalert'
 import loader from '../assets/loader.gif'
+import ReactQuill from 'react-quill-new'
+import 'react-quill-new/dist/quill.snow.css'
 
 const AddVideo = () => {
   const [title, setTitle] = useState('')
@@ -44,7 +46,7 @@ const AddVideo = () => {
       console.log(uploadedVideoRes)
       setLoading(false)
       swal("Uploaded!", "Video Uploaded!", "Success");
-      navigate('/home')
+      navigate('/')
     }
 
     catch (err) {
@@ -74,13 +76,38 @@ const AddVideo = () => {
         :
         <form className='add-video-form' onSubmit={submitHandler}>
           <p className='add-video-heading'>Upload Video</p>
-          <input id='videoInput' onChange={videoHandler} type="file" className='add-video-file-input' />
-          <div className='add-video-file-group'>
-            <p className='add-video-file-name'>{videoName}</p>
-            <button className='add-video-file-btn' type='button' onClick={() => { document.getElementById('videoInput').click() }}><i className="fa-solid fa-upload"></i> Choose Video</button>
+          <div className="add-video-file-group">
+
+            <input
+              id="videoInput"
+              type="file"
+              accept="video/*"
+              onChange={videoHandler}
+              hidden
+            />
+
+            <p className="add-video-file-name">
+              {videoName || "No video selected"}
+            </p>
+
+            <button
+              className="add-video-file-btn"
+              type="button"
+              onClick={() => document.getElementById("videoInput").click()}
+            >
+              <i className="fa-solid fa-upload"></i> Choose Video
+            </button>
+
           </div>
           <input className='add-video-input' onChange={(e) => { setTitle(e.target.value) }} value={title} type="text" name="title" placeholder='Title' />
-          <textarea className='add-video-input' onChange={(e) => { setDescription(e.target.value) }} value={description} name='description' placeholder='Description'></textarea>
+          <div className="video-description-editor">
+            <ReactQuill
+              theme="snow"
+              value={description}
+              onChange={setDescription}
+              placeholder="Write description..."
+            />
+          </div>
           <select className='add-video-input' onChange={(e) => { setCategory(e.target.value) }} value={category}>
             <option value="education">Education</option>
             <option value="technology">Technology</option>
